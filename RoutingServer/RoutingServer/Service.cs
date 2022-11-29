@@ -15,7 +15,7 @@ namespace RoutingServer
     internal class Service : IService
     {
         private static HttpClient client = new HttpClient();
-        private List<station> stations = new List<station>();
+        private List<Station> stations = new List<Station>();
    
         string KEY = "5b3ce3597851110001cf624810d1e3dd14444e7890e65060cb520bac";
         string PATH = "https://api.openrouteservice.org";

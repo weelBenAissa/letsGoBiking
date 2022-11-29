@@ -1,21 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
-
+// HttpClient is in the System.web.Http namespace.
+using System.Text.Json;
+// GeoCordinates is in the System.Device.Location namespace, coming from System.Device which is an assembly reference.
+using System.Device.Location;
 namespace RoutingServer
 {
     [DataContract]
-    public class contract
+    public class Contract
     {
         [DataMember]
-        string name { get; set; }
+        public string name { get; set; }
     }
     [DataContract]
-    public class station
+    public class Station
     {
         [DataMember]
         public int number { get; set; }
@@ -37,25 +42,34 @@ namespace RoutingServer
         string urlContract = "https://api.jcdecaux.com/vls/v3/contracts";
         string key = "3d2ab2ea77d811391e1cea4265a75794bda2f0a9";
         string urlStation = "https://api.jcdecaux.com/vls/v3/stations";
-        HttpClient client = new HttpClient();
-        public List<contract> GetContracts()
+        static async Task<string> JCDecauxAPICall(string url, string query)
         {
-
-            HttpResponseMessage response = client.GetAsync(urlContract + "?apiKey=" + key).GetAwaiter().GetResult();
-            return response.Content.ReadAsAsync<List<contract>>().GetAwaiter().GetResult();
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(url + "?" + query);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync();
         }
-        public List<station> GetStationsForAContract(string contract)
+        public List<Contract> GetContracts()
         {
-            HttpResponseMessage response = client.GetAsync(urlStation + "?apiKey=" + key + "&contract=" + contract).GetAwaiter().GetResult();
-            return response.Content.ReadAsAsync<List<station>>().GetAwaiter().GetResult();
+            string query = "apiKey=" + key;
+            string response = JCDecauxAPICall(urlContract, query).Result;
+            List<Contract> allContracts = JsonSerializer.Deserialize<List<Contract>>(response);
+            return allContracts;
         }
-        public Contrat GetContratForPosition(double latitude, double longitude)
+        public List<Station> GetStationsForAContract(string contract)
         {
-            List<contract> contracts = GetContracts();
-            foreach (contract c in contracts)
+            string query = "apiKey=" + key + "&contract=" + contract;
+            string response = JCDecauxAPICall(urlStation, query).Result;
+            List<Station> allStations = JsonSerializer.Deserialize<List<Station>>(response);
+            return allStations;
+        }
+        public Contract GetContratForPosition(double latitude, double longitude)
+        {
+            List<Contract> contracts = GetContracts();
+            foreach (Contract c in contracts)
             {
-                List<station> stations = GetStationsForAContract(c.name);
-                foreach (station s in stations)
+                List<Station> stations = GetStationsForAContract(c.name);
+                foreach (Station s in stations)
                 {
                     if (s.position.latitude == latitude && s.position.longitude == longitude)
                     {
@@ -65,7 +79,26 @@ namespace RoutingServer
             }
             return null;
         }
-    }
 
-    
+        public Station getClosestStation(double latitude, double longitude)
+        {
+            Contract contract = GetContratForPosition(latitude, longitude);
+            List<Station> stations = GetStationsForAContract(contract.name);
+            Station closestStation = null;
+            double distance = 0;
+            foreach (Station s in stations)
+            {
+                GeoCoordinate stationPosition = new GeoCoordinate(s.position.latitude, s.position.longitude);
+                GeoCoordinate userPosition = new GeoCoordinate(latitude, longitude);
+                double currentDistance = stationPosition.GetDistanceTo(userPosition);
+                if (closestStation == null || currentDistance < distance)
+                {
+                    closestStation = s;
+                    distance = currentDistance;
+                }
+            }
+            return closestStation;
+        }
+
+    }
 }
