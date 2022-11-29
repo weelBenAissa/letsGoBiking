@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -10,7 +11,7 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace RoutingServer
 {
-  
+    [ServiceContract]
     internal class Service : IService
     {
         private static HttpClient client = new HttpClient();
@@ -32,20 +33,6 @@ namespace RoutingServer
         }
 
     }
-    public class contract
-    {
-        string name { get; set; }
-    }
-    public class station
-    {
-        public int number { get; set; }
-        public string name { get; set; }
-        public Position position { get; set; }
-    }
-    public class Position
-    {
-        public Double latitude { get; set; }
-        public Double longitude { get; set; }
-    }
+  
 
 }
