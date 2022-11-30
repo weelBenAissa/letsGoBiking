@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace RoutingServer
 {
-    internal class TotalStands
+    public class TotalStands
     {
-        Availibilities avaibilities { get; set; }
+        public Availabilities availabilities { get; set; }
     }
-    internal class Availibilities
+    public class Availabilities
     {
-        int bikes { get; set; }
-        
+        public int bikes { get; set; }
+        public int stands { get; set; }
+
     }
 }

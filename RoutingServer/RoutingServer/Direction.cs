@@ -12,7 +12,7 @@ namespace RoutingServer
    internal class Direction
     {
         [DataContract]
-        public class features
+        public class Feature
         {
             [DataMember]
             public string type { get; set; }

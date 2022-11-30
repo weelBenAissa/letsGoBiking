@@ -28,6 +28,8 @@ namespace RoutingServer
         public string name { get; set; }
         [DataMember]
         public Position position { get; set; }
+        [DataMember]
+        public TotalStands totalStands { get; set; }
     }
     [DataContract]
     public class Position
@@ -39,9 +41,9 @@ namespace RoutingServer
     }
     internal class JcDeceaux
     {
-        string urlContract = "https://api.jcdecaux.com/vls/v3/contracts";
-        string key = "3d2ab2ea77d811391e1cea4265a75794bda2f0a9";
-        string urlStation = "https://api.jcdecaux.com/vls/v3/stations";
+        private string urlContract = "https://api.jcdecaux.com/vls/v3/contracts";
+        private string key = "3d2ab2ea77d811391e1cea4265a75794bda2f0a9";
+        private string urlStation = "https://api.jcdecaux.com/vls/v3/stations";
         static async Task<string> JCDecauxAPICall(string url, string query)
         {
             HttpClient client = new HttpClient();
@@ -79,26 +81,65 @@ namespace RoutingServer
             }
             return null;
         }
-
-        public Station getClosestStation(double latitude, double longitude)
+        public Station getClosestStationWithAvailableBikes(double latitude, double longitude)
         {
-            Contract contract = GetContratForPosition(latitude, longitude);
-            List<Station> stations = GetStationsForAContract(contract.name);
+            GeoCoordinate stationCoordinates = new GeoCoordinate(latitude, longitude);
+            Contract contrat = GetContratForPosition(latitude, longitude);
+            List<Station> allStations = GetStationsForAContract(contrat.name);
+            Double minDistance = -1;
             Station closestStation = null;
-            double distance = 0;
-            foreach (Station s in stations)
+            foreach (Station item in allStations)
             {
-                GeoCoordinate stationPosition = new GeoCoordinate(s.position.latitude, s.position.longitude);
-                GeoCoordinate userPosition = new GeoCoordinate(latitude, longitude);
-                double currentDistance = stationPosition.GetDistanceTo(userPosition);
-                if (closestStation == null || currentDistance < distance)
+                // Find the current station's position.
+                GeoCoordinate candidatePos = new GeoCoordinate(item.position.latitude, item.position.longitude);
+                // And compare its distance to the chosen one to see if it is closer than the current closest.
+                Double distanceToCandidate = stationCoordinates.GetDistanceTo(candidatePos);
+
+                if (distanceToCandidate != 0 && (minDistance == -1 || distanceToCandidate < minDistance) && item.totalStands.availabilities.bikes > 0)
+
                 {
-                    closestStation = s;
-                    distance = currentDistance;
+                    closestStation = item;
+                    minDistance = distanceToCandidate;
                 }
+               
             }
             return closestStation;
         }
 
+
+        public Station getClosestStationWithAvailableStands(double latitude, double longitude)
+        {
+            GeoCoordinate stationCoordinates = new GeoCoordinate(latitude, longitude);
+            Contract contrat = GetContratForPosition(latitude, longitude);
+            List<Station> allStations = GetStationsForAContract(contrat.name);
+            Double minDistance = -1;
+            Station closestStation = null;
+            foreach (Station item in allStations)
+            {
+                // Find the current station's position.
+                GeoCoordinate candidatePos = new GeoCoordinate(item.position.latitude, item.position.longitude);
+                // And compare its distance to the chosen one to see if it is closer than the current closest.
+                Double distanceToCandidate = stationCoordinates.GetDistanceTo(candidatePos);
+
+                if (distanceToCandidate != 0 && (minDistance == -1 || distanceToCandidate < minDistance) && item.totalStands.availabilities.stands > 0)
+
+                {
+                    closestStation = item;
+                    minDistance = distanceToCandidate;
+                }
+
+            }
+            return closestStation;
+        }
+        public double GetDistanceTo(double[] position,double[] destination)
+        {
+            GeoCoordinate stationCoordinates = new GeoCoordinate(position[0], position[1]);
+            GeoCoordinate destinationCoordinates = new GeoCoordinate(destination[0], destination[1]);
+            return stationCoordinates.GetDistanceTo(destinationCoordinates);
+        }
     }
-}
+        
+        
+
+    }
+
