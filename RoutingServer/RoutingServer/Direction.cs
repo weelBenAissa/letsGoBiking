@@ -11,6 +11,8 @@ namespace RoutingServer
     [DataContract] 
    internal class Direction
     {
+        
+    
         [DataContract]
         public class Feature
         {
@@ -19,17 +21,17 @@ namespace RoutingServer
             [DataMember]
             public Properties properties { get; set; }
             [DataMember]
-            public string geometry { get; set; }
+            public Geometry geometry { get; set; }
         }
         [DataContract]
         public class Properties
         {
             [DataMember]
-            Segment segments { get; set; }
+            public Segment segments { get; set; }
             [DataMember]
-            Geometry geometry { get; set; }
+            public Geometry geometry { get; set; }
             [DataMember]
-            Summary summary { get; set; }
+            public Summary summary { get; set; }
 
         }
         [DataContract]
@@ -43,7 +45,9 @@ namespace RoutingServer
         public class Geometry
         {
             [DataMember]
-            List<double> coordinates { get; set; }
+            public List<double> coordinates { get; set; }
+            public string type { get; set;}
+
         }
         [DataContract]
         public class Segment

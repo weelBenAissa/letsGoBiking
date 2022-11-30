@@ -7,6 +7,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static RoutingServer.Direction;
 
 namespace RoutingServer
 {
@@ -17,6 +18,8 @@ namespace RoutingServer
         {
 
             JcDeceaux jc = new JcDeceaux();
+            OpenStreet op = new OpenStreet();
+            /*
             List<Contract> contracts = jc.GetContracts();
             Console.WriteLine("Contracts:");
             foreach (Contract c in contracts)
@@ -49,16 +52,20 @@ namespace RoutingServer
             Console.WriteLine(stationClose.name);
             Console.WriteLine(stationClose.number);
             Console.WriteLine(stationClose.totalStands.availabilities.bikes);
-            
-            Console.WriteLine("Choisir une station d'arrivée");
-            string arrive = Console.ReadLine();
+            */
+            Console.WriteLine("Ecrire une addresse pour retrouver ses coordoonée");
+            string adress = Console.ReadLine();
+            double[] coor =  op.getCoordinatesFromStrAddress(adress);
+            Console.WriteLine("longitude:" + coor[0] );
+            Console.WriteLine("lattitude:" + coor[1]);
+            Console.ReadLine();
             /*
             //Console.WriteLine("Choisir un profil");
             //string profile = Console.ReadLine();
             //Service service = new Service();
 
         */
-        
+
 
 
         }
