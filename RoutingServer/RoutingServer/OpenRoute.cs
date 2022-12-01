@@ -13,7 +13,7 @@ using static RoutingServer.Direction;
 
 namespace RoutingServer
 {
-    internal class OpenStreet
+    internal class OpenRoute
     {
         private string url = "https://api.openrouteservice.org/v2/directions/";
         private string key = "5b3ce3597851110001cf624810d1e3dd14444e7890e65060cb520bac";
@@ -53,6 +53,13 @@ namespace RoutingServer
             List<Feature> listFeatures = JsonSerializer.Deserialize<List<Feature>>(jsonFeatures);
             return listFeatures;
         }
+        public string getCityFromStrAddress(string addr)
+        {
+            List<Feature> listFeatures = getFeatureFromStrAddress(addr);
+            string city = listFeatures[0].properties.county;
+            return city;
+        }
+        
         public double[] getCoordinatesFromStrAddress(string address)
         {
             Feature feature = getFeatureFromStrAddress(address)[0];
@@ -61,7 +68,11 @@ namespace RoutingServer
             coordinates[1] = feature.geometry.coordinates[1];
             return coordinates;
         }
-
+        /*public Direction getPath(double[] depart, double[] arrive)
+        {
+            
+        }
+        */
 
 
 

@@ -18,7 +18,8 @@ namespace RoutingServer
         {
 
             JcDeceaux jc = new JcDeceaux();
-            OpenStreet op = new OpenStreet();
+            OpenRoute opr = new OpenRoute();
+            OpenStreetMap ops = new OpenStreetMap();
             /*
             List<Contract> contracts = jc.GetContracts();
             Console.WriteLine("Contracts:");
@@ -52,19 +53,26 @@ namespace RoutingServer
             Console.WriteLine(stationClose.name);
             Console.WriteLine(stationClose.number);
             Console.WriteLine(stationClose.totalStands.availabilities.bikes);
-            */
+            
             Console.WriteLine("Ecrire une addresse pour retrouver ses coordoonée");
             string adress = Console.ReadLine();
-            double[] coor =  op.getCoordinatesFromStrAddress(adress);
+            double[] coor =  opr.getCoordinatesFromStrAddress(adress);
             Console.WriteLine("longitude:" + coor[0] );
             Console.WriteLine("lattitude:" + coor[1]);
-            Console.ReadLine();
+            Console.WriteLine("Le contrat associé a cette position est: ");
+            Contract c = jc.getContratForPosition(coor[1], coor[0]);
+            Console.WriteLine(c.name);
             /*
             //Console.WriteLine("Choisir un profil");
             //string profile = Console.ReadLine();
             //Service service = new Service();
 
         */
+            Console.WriteLine("Choisir une addresse pour retrouver sa ville et ses coordonnées");
+            string adress = Console.ReadLine();
+            string city = opr.getCityFromStrAddress(adress);
+            Console.WriteLine(city);
+            Console.ReadLine();
 
 
 

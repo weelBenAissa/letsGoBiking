@@ -51,26 +51,33 @@ namespace RoutingServer
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
-        public List<Contract> GetContracts()
+        public List<Station> getStations()
+        {
+            string query = "apiKey=" + key;
+            string response = JCDecauxAPICall(urlStation, query).Result;
+            List<Station> allStations = JsonSerializer.Deserialize<List<Station>>(response);
+            return allStations;
+        }
+        public List<Contract> getContracts()
         {
             string query = "apiKey=" + key;
             string response = JCDecauxAPICall(urlContract, query).Result;
             List<Contract> allContracts = JsonSerializer.Deserialize<List<Contract>>(response);
             return allContracts;
         }
-        public List<Station> GetStationsForAContract(string contract)
+        public List<Station> getStationsForAContract(string contract)
         {
             string query = "apiKey=" + key + "&contract=" + contract;
             string response = JCDecauxAPICall(urlStation, query).Result;
             List<Station> allStations = JsonSerializer.Deserialize<List<Station>>(response);
             return allStations;
         }
-        public Contract GetContratForPosition(double latitude, double longitude)
+        public Contract getContratForPosition(double latitude, double longitude)
         {
-            List<Contract> contracts = GetContracts();
+            List<Contract> contracts = getContracts();
             foreach (Contract c in contracts)
             {
-                List<Station> stations = GetStationsForAContract(c.name);
+                List<Station> stations = getStationsForAContract(c.name);
                 foreach (Station s in stations)
                 {
                     if (s.position.latitude == latitude && s.position.longitude == longitude)
@@ -84,8 +91,8 @@ namespace RoutingServer
         public Station getClosestStationWithAvailableBikes(double latitude, double longitude)
         {
             GeoCoordinate stationCoordinates = new GeoCoordinate(latitude, longitude);
-            Contract contrat = GetContratForPosition(latitude, longitude);
-            List<Station> allStations = GetStationsForAContract(contrat.name);
+            Contract contrat = getContratForPosition(latitude, longitude);
+            List<Station> allStations = getStationsForAContract(contrat.name);
             Double minDistance = -1;
             Station closestStation = null;
             foreach (Station item in allStations)
@@ -106,12 +113,36 @@ namespace RoutingServer
             return closestStation;
         }
 
+        public Station getClosestStation(double latitude, double longitude)
+        {
+            GeoCoordinate stationCoordinates = new GeoCoordinate(latitude, longitude);
+            Contract contrat = getContratForPosition(latitude, longitude);
+            List<Station> allStations = getStationsForAContract(contrat.name);
+            Double minDistance = -1;
+            Station closestStation = null;
+            foreach (Station item in allStations)
+            {
+                // Find the current station's position.
+                GeoCoordinate candidatePos = new GeoCoordinate(item.position.latitude, item.position.longitude);
+                // And compare its distance to the chosen one to see if it is closer than the current closest.
+                Double distanceToCandidate = stationCoordinates.GetDistanceTo(candidatePos);
+
+                if (distanceToCandidate != 0 && (minDistance == -1 || distanceToCandidate < minDistance) )
+
+                {
+                    closestStation = item;
+                    minDistance = distanceToCandidate;
+                }
+
+            }
+            return closestStation;
+        }
 
         public Station getClosestStationWithAvailableStands(double latitude, double longitude)
         {
             GeoCoordinate stationCoordinates = new GeoCoordinate(latitude, longitude);
-            Contract contrat = GetContratForPosition(latitude, longitude);
-            List<Station> allStations = GetStationsForAContract(contrat.name);
+            Contract contrat = getContratForPosition(latitude, longitude);
+            List<Station> allStations = getStationsForAContract(contrat.name);
             Double minDistance = -1;
             Station closestStation = null;
             foreach (Station item in allStations)
@@ -131,7 +162,7 @@ namespace RoutingServer
             }
             return closestStation;
         }
-        public double GetDistanceTo(double[] position,double[] destination)
+        public double getDistanceTo(double[] position,double[] destination)
         {
             GeoCoordinate stationCoordinates = new GeoCoordinate(position[0], position[1]);
             GeoCoordinate destinationCoordinates = new GeoCoordinate(destination[0], destination[1]);

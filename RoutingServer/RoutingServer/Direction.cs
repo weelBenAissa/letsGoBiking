@@ -32,6 +32,8 @@ namespace RoutingServer
             public Geometry geometry { get; set; }
             [DataMember]
             public Summary summary { get; set; }
+            [DataMember]
+            public string county { get; set; }
 
         }
         [DataContract]

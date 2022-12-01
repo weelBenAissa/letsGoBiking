@@ -10,6 +10,6 @@ namespace RoutingServer
     internal interface IService
     {
        
-        Direction GetItinerary(Double depart, Double arrive,string profile);
+        //Direction GetItinerary(Double depart, Double arrive,string profile);
     }
 }
