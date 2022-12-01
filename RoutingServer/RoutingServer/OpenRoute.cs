@@ -17,6 +17,7 @@ namespace RoutingServer
     {
         private string url = "https://api.openrouteservice.org/v2/directions/";
         private string key = "5b3ce3597851110001cf624810d1e3dd14444e7890e65060cb520bac";
+        private JcDeceaux jc = new JcDeceaux();
         static async Task<string> OSPMApiCall(string url, string query)
         {
             HttpClient client = new HttpClient();
@@ -32,6 +33,7 @@ namespace RoutingServer
             Direction direction = JsonSerializer.Deserialize<Direction>(response);
             return direction;
         }
+        
        public Direction getItineraryCyclingRegular(double depart,double arrive)
         {
             {
@@ -56,8 +58,19 @@ namespace RoutingServer
         public string getCityFromStrAddress(string addr)
         {
             List<Feature> listFeatures = getFeatureFromStrAddress(addr);
-            string city = listFeatures[0].properties.county;
+            string city = listFeatures[0].properties.locality;
             return city;
+        }
+        public Contract getContractFromStrAddress(string addr)
+        {
+            List<Contract> contracts = jc.getContracts();
+            string cityAddr = getCityFromStrAddress(addr);
+            foreach(Contract c in contracts)
+            {
+                if (c.cities.Contains(cityAddr))
+                    return c;
+            }
+            return null;
         }
         
         public double[] getCoordinatesFromStrAddress(string address)

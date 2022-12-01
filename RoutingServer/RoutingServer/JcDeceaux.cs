@@ -18,6 +18,7 @@ namespace RoutingServer
     {
         [DataMember]
         public string name { get; set; }
+        public string[] cities { get; set; }
     }
     [DataContract]
     public class Station

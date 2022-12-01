@@ -19,7 +19,7 @@ namespace RoutingServer
 
             JcDeceaux jc = new JcDeceaux();
             OpenRoute opr = new OpenRoute();
-            OpenStreetMap ops = new OpenStreetMap();
+           
             /*
             List<Contract> contracts = jc.GetContracts();
             Console.WriteLine("Contracts:");
@@ -68,10 +68,11 @@ namespace RoutingServer
             //Service service = new Service();
 
         */
-            Console.WriteLine("Choisir une addresse pour retrouver sa ville et ses coordonnées");
+            Console.WriteLine("Choisir une addresse pour retrouver sa ville et le contrat associé");
             string adress = Console.ReadLine();
             string city = opr.getCityFromStrAddress(adress);
-            Console.WriteLine(city);
+            Contract c = opr.getContractFromStrAddress(adress);
+            Console.WriteLine("la ville: "+city+" et le contrat associé est: "+c.name);
             Console.ReadLine();
 
 

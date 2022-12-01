@@ -33,7 +33,7 @@ namespace RoutingServer
             [DataMember]
             public Summary summary { get; set; }
             [DataMember]
-            public string county { get; set; }
+            public string locality { get; set; }
 
         }
         [DataContract]
