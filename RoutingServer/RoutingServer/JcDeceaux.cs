@@ -39,6 +39,12 @@ namespace RoutingServer
         public Double latitude { get; set; }
         [DataMember]
         public Double longitude { get; set; }
+       public Position(double lat, double lon)
+        {
+            latitude = lat;
+            longitude = lon;
+        }
+        
     }
     internal class JcDeceaux
     {

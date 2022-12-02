@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Policy;
@@ -25,39 +26,50 @@ namespace RoutingServer
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
-      
-        public Direction getItineraryFootWalking(double depart,double arrive) {
-            string profile = "foot-walking";
-            string query = "api_key=" + key;
-            string response = OSPMApiCall(url + profile, query).Result;
-            Direction direction = JsonSerializer.Deserialize<Direction>(response);
-            return direction;
-        }
-        
-       public Direction getItineraryCyclingRegular(double depart,double arrive)
+
+        public Feature getItineraryFootWalking(Position depart, Position arrive)
         {
             {
-                string profile = "cycling-regular";
-                string query = "api_key=" + key;
+                string starting = depart.longitude.ToString().Replace(',', '.') + "," + depart.latitude.ToString().Replace(',', '.');
+                string ending = arrive.longitude.ToString().Replace(',', '.') + "," + arrive.latitude.ToString().Replace(',', '.');
+                string profile = "foot-walking";
+                string query = "api_key=" + key + "&start=" + starting + "&end=" + ending;
                 string response = OSPMApiCall(url + profile, query).Result;
-                Direction direction = JsonSerializer.Deserialize<Direction>(response);
-                return direction;
+                JsonElement direction = JsonDocument.Parse(response).RootElement.GetProperty("features")[0];
+                Feature feat = JsonSerializer.Deserialize<Feature>(direction);
+                return feat;
+
+            }
+        }
+
+        public Feature getItineraryCyclingRegular(Position depart,Position arrive)
+        {
+            {
+                string starting = depart.longitude.ToString().Replace(',', '.') + "," + depart.latitude.ToString().Replace(',', '.');
+                string ending = arrive.longitude.ToString().Replace(',', '.') + "," + arrive.latitude.ToString().Replace(',', '.');
+                string profile = "cycling-regular";
+                string query = "api_key=" + key + "&start="+starting+"&end="+ending;
+                string response = OSPMApiCall(url + profile, query).Result;
+                JsonElement direction = JsonDocument.Parse(response).RootElement.GetProperty("features")[0];
+                Feature feat = JsonSerializer.Deserialize<Feature>(direction);
+                return feat;
+                
             }
         }
         
-        public List<Feature> getFeatureFromStrAddress(string address)
+        public List<Geocode.Feature> getFeatureFromStrAddress(string address)
         {
            ;
             string query = "text="+ address +"&api_key=" + key; 
             string url = "https://api.openrouteservice.org/geocode/search"; 
             string response = OSPMApiCall(url , query).Result;
             JsonElement jsonFeatures = JsonDocument.Parse(response).RootElement.GetProperty("features");
-            List<Feature> listFeatures = JsonSerializer.Deserialize<List<Feature>>(jsonFeatures);
+            List<Geocode.Feature> listFeatures = JsonSerializer.Deserialize<List<Geocode.Feature>>(jsonFeatures);
             return listFeatures;
         }
         public string getCityFromStrAddress(string addr)
         {
-            List<Feature> listFeatures = getFeatureFromStrAddress(addr);
+            List<Geocode.Feature> listFeatures = getFeatureFromStrAddress(addr);
             string city = listFeatures[0].properties.locality;
             return city;
         }
@@ -75,7 +87,7 @@ namespace RoutingServer
         
         public double[] getCoordinatesFromStrAddress(string address)
         {
-            Feature feature = getFeatureFromStrAddress(address)[0];
+            Geocode.Feature feature = getFeatureFromStrAddress(address)[0];
             double[] coordinates = new double[2];
             coordinates[0] = feature.geometry.coordinates[0];
             coordinates[1] = feature.geometry.coordinates[1];

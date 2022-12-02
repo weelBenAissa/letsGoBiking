@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using System.Threading;
 using static RoutingServer.Direction;
 
 namespace RoutingServer
@@ -19,7 +19,7 @@ namespace RoutingServer
 
             JcDeceaux jc = new JcDeceaux();
             OpenRoute opr = new OpenRoute();
-           
+
             /*
             List<Contract> contracts = jc.GetContracts();
             Console.WriteLine("Contracts:");
@@ -54,11 +54,7 @@ namespace RoutingServer
             Console.WriteLine(stationClose.number);
             Console.WriteLine(stationClose.totalStands.availabilities.bikes);
             
-            Console.WriteLine("Ecrire une addresse pour retrouver ses coordoonée");
-            string adress = Console.ReadLine();
-            double[] coor =  opr.getCoordinatesFromStrAddress(adress);
-            Console.WriteLine("longitude:" + coor[0] );
-            Console.WriteLine("lattitude:" + coor[1]);
+           
             Console.WriteLine("Le contrat associé a cette position est: ");
             Contract c = jc.getContratForPosition(coor[1], coor[0]);
             Console.WriteLine(c.name);
@@ -68,15 +64,38 @@ namespace RoutingServer
             //Service service = new Service();
 
         */
-            Console.WriteLine("Choisir une addresse pour retrouver sa ville et le contrat associé");
+            Console.WriteLine("Ecrire une addresse pour retrouver ses coordoonée");
             string adress = Console.ReadLine();
-            string city = opr.getCityFromStrAddress(adress);
-            Contract c = opr.getContractFromStrAddress(adress);
-            Console.WriteLine("la ville: "+city+" et le contrat associé est: "+c.name);
+            double[] coor = opr.getCoordinatesFromStrAddress(adress);
+
+            Console.WriteLine("longitude:" + coor[0]);
+            Console.WriteLine("lattitude:" + coor[1]);
+            Console.WriteLine("le chemin random à vélo");
+
+             Position depart = new Position(8.681495, 49.41461);
+             Position arrive = new Position(8.687872, 49.420318);
+             Feature f = opr.getItineraryCyclingRegular(depart, arrive);
+             foreach (Step s in f.properties.segments[0].steps)
+             {
+                 Console.WriteLine(s.instruction);
+                 Thread.Sleep(1000);
+
+             }
+            Console.WriteLine("le chemin random à pied");
+            Feature f1 = opr.getItineraryFootWalking(depart, arrive);
+            foreach (Step s in f1.properties.segments[0].steps)
+            {
+                Console.WriteLine(s.instruction);
+                Thread.Sleep(1000);
+
+            }
+
             Console.ReadLine();
 
-
+            
 
         }
+
     }
-}
+
+    }

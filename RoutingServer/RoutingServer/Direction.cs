@@ -8,11 +8,11 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace RoutingServer
 {
-    [DataContract] 
-   internal class Direction
+    [DataContract]
+    internal class Direction
     {
-        
-    
+        public List<Feature> features { get; set; }
+
         [DataContract]
         public class Feature
         {
@@ -27,7 +27,7 @@ namespace RoutingServer
         public class Properties
         {
             [DataMember]
-            public Segment segments { get; set; }
+            public List<Segment> segments { get; set; }
             [DataMember]
             public Geometry geometry { get; set; }
             [DataMember]
@@ -47,10 +47,12 @@ namespace RoutingServer
         public class Geometry
         {
             [DataMember]
-            public List<double> coordinates { get; set; }
-            public string type { get; set;}
+            public List<List<double>> coordinates { get; set; }
+            public string type { get; set; }
 
         }
+       
+    
         [DataContract]
         public class Segment
         {
@@ -59,7 +61,7 @@ namespace RoutingServer
             [DataMember]
             double duration { get; set; }
             [DataMember]
-            List<Step> steps { get; set; }
+            public List<Step> steps { get; set; }
         }
         public class Step
         {
@@ -70,7 +72,7 @@ namespace RoutingServer
             [DataMember]
             string type { get; set; }
             [DataMember]
-            string instruction { get; set; }
+            public string instruction { get; set; }
             [DataMember]
             string name { get; set; }
             [DataMember]
