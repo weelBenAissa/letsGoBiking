@@ -18,6 +18,7 @@ namespace RoutingServer
     {
         [DataMember]
         public string name { get; set; }
+        public string number { get; set; }
         public string[] cities { get; set; }
     }
     [DataContract]
@@ -153,12 +154,7 @@ namespace RoutingServer
             }
             return closestStation;
         }
-        public double getDistanceTo(double[] position,double[] destination)
-        {
-            GeoCoordinate stationCoordinates = new GeoCoordinate(position[0], position[1]);
-            GeoCoordinate destinationCoordinates = new GeoCoordinate(destination[0], destination[1]);
-            return stationCoordinates.GetDistanceTo(destinationCoordinates);
-        }
+        
     }
         
         

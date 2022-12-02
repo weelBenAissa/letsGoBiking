@@ -88,17 +88,17 @@ namespace RoutingServer
             }
             Position Pdepart = getPositionFromStrAddress(depart);
             Position Parrive = getPositionFromStrAddress(arrive);
-            Feature featureApied1 = getItineraryFootWalking(Pdepart, Parrive);
             double durationAvelo;
             double durationApied;
-            durationApied = featureApied1.properties.summary.duration;
             Station statProcheAvecVeloDispo = jc.getClosestStationWithAvailableBikes(Pdepart, contract);
             Position PdepartAvecVelo = statProcheAvecVeloDispo.position;
             Station statProcheAvecEmplacementDispo = jc.getClosestStationWithAvailableStands(Parrive, contract);
             Position ParriveAvecVelo = statProcheAvecEmplacementDispo.position;
             Feature featureAvelo = getItineraryCyclingRegular(PdepartAvecVelo, ParriveAvecVelo);
             Feature featureApied2 = getItineraryFootWalking(ParriveAvecVelo, Parrive);
-            Feature featureApiedTotal = getItineraryFootWalking(ParriveAvecVelo, Parrive);
+            Feature featureApiedTotal = getItineraryFootWalking(Pdepart, Parrive);
+            Feature featureApied1 = getItineraryFootWalking(Pdepart, PdepartAvecVelo);
+            durationApied = featureApiedTotal.properties.summary.duration;
             double duration1 = featureApied1.properties.summary.duration;
             double duration2 = featureAvelo.properties.summary.duration;
             double duration3 = featureApied2.properties.summary.duration;
@@ -108,16 +108,16 @@ namespace RoutingServer
             int tMarche2 = getItineraryFootWalking(ParriveAvecVelo, Parrive).properties.segments[0].steps.Count;
             if (durationAvelo < durationApied)
             {
-                steps.Add(new Step("Take a bike at " + statProcheAvecVeloDispo.name +"Duration : " + duration1 + "After: "));
+                steps.Add(new Step("Take a bike at " + statProcheAvecVeloDispo.name +" Duration : " + duration1 + " After: "));
                 for(int i = 0; i < tMarche1; i++)
                 {
                     steps.Add(featureApied1.properties.segments[0].steps[i]);
                 }
-                steps.Add(new Step("Ride to " + statProcheAvecEmplacementDispo.name + "Duration: " + duration2));
+                steps.Add(new Step("Ride to " + statProcheAvecEmplacementDispo.name + " Duration: " + duration2));
                 for(int i = 0; i< tVelo; i++) {
                     steps.Add(featureAvelo.properties.segments[0].steps[i]);
                 }
-                steps.Add(new Step("Finally walk to your destination"));
+                steps.Add(new Step("Finally walk to your destination Duration: "+ duration3));
                 for(int i = 0; i < tMarche2; i++)
                 {
                     steps.Add(featureApied2.properties.segments[0].steps[i]);
