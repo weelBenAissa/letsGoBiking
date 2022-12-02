@@ -44,6 +44,7 @@ namespace RoutingServer
             latitude = lat;
             longitude = lon;
         }
+        public Position() { }
         
     }
     internal class JcDeceaux
@@ -51,6 +52,7 @@ namespace RoutingServer
         private string urlContract = "https://api.jcdecaux.com/vls/v3/contracts";
         private string key = "3d2ab2ea77d811391e1cea4265a75794bda2f0a9";
         private string urlStation = "https://api.jcdecaux.com/vls/v3/stations";
+       
         static async Task<string> JCDecauxAPICall(string url, string query)
         {
             HttpClient client = new HttpClient();
@@ -79,26 +81,10 @@ namespace RoutingServer
             List<Station> allStations = JsonSerializer.Deserialize<List<Station>>(response);
             return allStations;
         }
-        public Contract getContratForPosition(double latitude, double longitude)
+       
+        public Station getClosestStationWithAvailableBikes(Position p,Contract contrat)
         {
-            List<Contract> contracts = getContracts();
-            foreach (Contract c in contracts)
-            {
-                List<Station> stations = getStationsForAContract(c.name);
-                foreach (Station s in stations)
-                {
-                    if (s.position.latitude == latitude && s.position.longitude == longitude)
-                    {
-                        return c;
-                    }
-                }
-            }
-            return null;
-        }
-        public Station getClosestStationWithAvailableBikes(double latitude, double longitude)
-        {
-            GeoCoordinate stationCoordinates = new GeoCoordinate(latitude, longitude);
-            Contract contrat = getContratForPosition(latitude, longitude);
+            GeoCoordinate stationCoordinates = new GeoCoordinate(p.latitude, p.longitude);
             List<Station> allStations = getStationsForAContract(contrat.name);
             Double minDistance = -1;
             Station closestStation = null;
@@ -119,11 +105,10 @@ namespace RoutingServer
             }
             return closestStation;
         }
-
-        public Station getClosestStation(double latitude, double longitude)
+       
+        public Station getClosestStation(Position p,Contract contrat)
         {
-            GeoCoordinate stationCoordinates = new GeoCoordinate(latitude, longitude);
-            Contract contrat = getContratForPosition(latitude, longitude);
+            GeoCoordinate stationCoordinates = new GeoCoordinate(p.latitude, p.longitude);
             List<Station> allStations = getStationsForAContract(contrat.name);
             Double minDistance = -1;
             Station closestStation = null;
@@ -145,10 +130,9 @@ namespace RoutingServer
             return closestStation;
         }
 
-        public Station getClosestStationWithAvailableStands(double latitude, double longitude)
+        public Station getClosestStationWithAvailableStands(Position p,Contract contrat)
         {
-            GeoCoordinate stationCoordinates = new GeoCoordinate(latitude, longitude);
-            Contract contrat = getContratForPosition(latitude, longitude);
+            GeoCoordinate stationCoordinates = new GeoCoordinate(p.latitude, p.longitude);
             List<Station> allStations = getStationsForAContract(contrat.name);
             Double minDistance = -1;
             Station closestStation = null;

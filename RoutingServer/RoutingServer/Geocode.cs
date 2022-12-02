@@ -9,11 +9,6 @@ namespace RoutingServer
 {
     public class Geocode
     {
-
-        [DataMember]
-        public double longt { get; set; }
-        [DataMember]
-        public double latt { get; set; }
         public List<Feature> features { get; set; }
 
         public class Feature

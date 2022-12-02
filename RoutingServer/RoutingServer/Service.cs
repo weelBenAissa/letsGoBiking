@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using static System.Collections.Specialized.BitVector32;
-
+using static RoutingServer.Direction;
 
 namespace RoutingServer
 {
@@ -16,17 +16,13 @@ namespace RoutingServer
     {
         private JcDeceaux jc = new JcDeceaux();
         private OpenRoute op = new OpenRoute();
-        private List<Station> stations = new List<Station>();
-   
-        string KEY = "5b3ce3597851110001cf624810d1e3dd14444e7890e65060cb520bac";
-        string PATH = "https://api.openrouteservice.org";
-        /*public Direction GetItinerary(Double depart, Double arrive,string profile)  
-         {
+       
 
-
-
-         }
- */
+        public void GetItinerary(string start, string end)
+        {
+            List<Step> steps = op.StepsForTheBestPath(start, end);
+            op.printStepsInstruction(steps);
+        }
     }
 
 

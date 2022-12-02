@@ -19,80 +19,28 @@ namespace RoutingServer
 
             JcDeceaux jc = new JcDeceaux();
             OpenRoute opr = new OpenRoute();
-
+            Service s = new Service();
+            Console.WriteLine("Type a departure adress");
+            string start = Console.ReadLine();
+            Console.WriteLine("Type an arrival adress");
+            string end = Console.ReadLine();
+            s.GetItinerary(start, end);
+            Console.ReadLine();
             /*
-            List<Contract> contracts = jc.GetContracts();
-            Console.WriteLine("Contracts:");
-            foreach (Contract c in contracts)
+            Position depart = new Position( 49.41461, 8.681495); 
+            Position arrive = new Position(49.420318,8.687872 );
+            Feature feat = opr.getItineraryCyclingRegular(depart, arrive);
+            for (int i = 0; i < feat.properties.segments[0].steps.Count; i++)
             {
-                Console.WriteLine(c.name);
+                Console.WriteLine(feat.properties.segments[0].steps[i].instruction);
             }
-
-
-            Console.WriteLine("Choisir un contrat");
-            string contract = Console.ReadLine();
-            List<Station> stations = jc.GetStationsForAContract(contract);
-            Console.WriteLine("affichage des stations");
-            foreach (Station s in stations)
-            {
-                Console.WriteLine(s.name);
-                Console.WriteLine(s.number);
-            }
-      
-            Console.WriteLine("Choisir une station de départ avec son chiffre");
-            int stationNumber = Int32.Parse(Console.ReadLine().Split(new[] { ':' })[0]);
-            Station chosenStation = stations[0];
-            foreach (Station s in stations)
-            {
-                if (s.number == stationNumber)
-                {
-                    chosenStation = s;
-                }
-            }
-            Station stationClose = jc.getClosestStationWithAvailableBikes(chosenStation.position.latitude, chosenStation.position.longitude);
-            Console.WriteLine(stationClose.name);
-            Console.WriteLine(stationClose.number);
-            Console.WriteLine(stationClose.totalStands.availabilities.bikes);
-            
-           
-            Console.WriteLine("Le contrat associé a cette position est: ");
-            Contract c = jc.getContratForPosition(coor[1], coor[0]);
-            Console.WriteLine(c.name);
-            /*
-            //Console.WriteLine("Choisir un profil");
-            //string profile = Console.ReadLine();
-            //Service service = new Service();
-
-        */
-            Console.WriteLine("Ecrire une addresse pour retrouver ses coordoonée");
-            string adress = Console.ReadLine();
-            double[] coor = opr.getCoordinatesFromStrAddress(adress);
-
-            Console.WriteLine("longitude:" + coor[0]);
-            Console.WriteLine("lattitude:" + coor[1]);
-            Console.WriteLine("le chemin random à vélo");
-
-             Position depart = new Position(8.681495, 49.41461);
-             Position arrive = new Position(8.687872, 49.420318);
-             Feature f = opr.getItineraryCyclingRegular(depart, arrive);
-             foreach (Step s in f.properties.segments[0].steps)
-             {
-                 Console.WriteLine(s.instruction);
-                 Thread.Sleep(1000);
-
-             }
-            Console.WriteLine("le chemin random à pied");
-            Feature f1 = opr.getItineraryFootWalking(depart, arrive);
-            foreach (Step s in f1.properties.segments[0].steps)
-            {
-                Console.WriteLine(s.instruction);
-                Thread.Sleep(1000);
-
-            }
-
             Console.ReadLine();
 
-            
+            */
+
+
+
+
 
         }
 

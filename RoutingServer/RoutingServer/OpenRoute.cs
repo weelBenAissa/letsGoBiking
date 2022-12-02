@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Security.Policy;
+using System.ServiceModel.Channels;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Features;
 using Newtonsoft.Json.Linq;
@@ -73,31 +76,90 @@ namespace RoutingServer
             string city = listFeatures[0].properties.locality;
             return city;
         }
+        
+        public List<Step> StepsForTheBestPath(string depart,string arrive)
+        {
+            List<Step> steps = new List<Step>();
+            Contract contract = getContractFromStrAddress(depart);
+            if (contract == null)
+            {
+                Console.WriteLine("Il n'y a pas de contrat associé a cette addresse");
+                return null;
+            }
+            Position Pdepart = getPositionFromStrAddress(depart);
+            Position Parrive = getPositionFromStrAddress(arrive);
+            Feature featureApied1 = getItineraryFootWalking(Pdepart, Parrive);
+            double durationAvelo;
+            double durationApied;
+            durationApied = featureApied1.properties.summary.duration;
+            Station statProcheAvecVeloDispo = jc.getClosestStationWithAvailableBikes(Pdepart, contract);
+            Position PdepartAvecVelo = statProcheAvecVeloDispo.position;
+            Station statProcheAvecEmplacementDispo = jc.getClosestStationWithAvailableStands(Parrive, contract);
+            Position ParriveAvecVelo = statProcheAvecEmplacementDispo.position;
+            Feature featureAvelo = getItineraryCyclingRegular(PdepartAvecVelo, ParriveAvecVelo);
+            Feature featureApied2 = getItineraryFootWalking(ParriveAvecVelo, Parrive);
+            Feature featureApiedTotal = getItineraryFootWalking(ParriveAvecVelo, Parrive);
+            double duration1 = featureApied1.properties.summary.duration;
+            double duration2 = featureAvelo.properties.summary.duration;
+            double duration3 = featureApied2.properties.summary.duration;
+            durationAvelo = duration1 + duration2 + duration3;
+            int tMarche1 = getItineraryFootWalking(Pdepart, PdepartAvecVelo).properties.segments[0].steps.Count;
+            int tVelo = getItineraryCyclingRegular(PdepartAvecVelo, ParriveAvecVelo).properties.segments[0].steps.Count;
+            int tMarche2 = getItineraryFootWalking(ParriveAvecVelo, Parrive).properties.segments[0].steps.Count;
+            if (durationAvelo < durationApied)
+            {
+                steps.Add(new Step("Take a bike at " + statProcheAvecVeloDispo.name +"Duration : " + duration1 + "After: "));
+                for(int i = 0; i < tMarche1; i++)
+                {
+                    steps.Add(featureApied1.properties.segments[0].steps[i]);
+                }
+                steps.Add(new Step("Ride to " + statProcheAvecEmplacementDispo.name + "Duration: " + duration2));
+                for(int i = 0; i< tVelo; i++) {
+                    steps.Add(featureAvelo.properties.segments[0].steps[i]);
+                }
+                steps.Add(new Step("Finally walk to your destination"));
+                for(int i = 0; i < tMarche2; i++)
+                {
+                    steps.Add(featureApied2.properties.segments[0].steps[i]);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Walk to your destination : ");
+                steps = featureApiedTotal.properties.segments[0].steps;
+                
+            }
+            return steps;
+
+        }
+        public void printStepsInstruction(List<Step> steps)
+        {
+            for(int i = 0; i < steps.Count; i++)
+            {
+                Console.WriteLine(steps[i].instruction);
+                Thread.Sleep(100);
+            }
+        }
         public Contract getContractFromStrAddress(string addr)
         {
             List<Contract> contracts = jc.getContracts();
             string cityAddr = getCityFromStrAddress(addr);
-            foreach(Contract c in contracts)
+            foreach (Contract c in contracts)
             {
-                if (c.cities.Contains(cityAddr))
+                for(int i = 0; i< c.cities.Length; i++) { if (c.cities[i] == cityAddr) ;
                     return c;
+                }
+                    
             }
             return null;
         }
-        
-        public double[] getCoordinatesFromStrAddress(string address)
+        public Position getPositionFromStrAddress(string address)
         {
             Geocode.Feature feature = getFeatureFromStrAddress(address)[0];
-            double[] coordinates = new double[2];
-            coordinates[0] = feature.geometry.coordinates[0];
-            coordinates[1] = feature.geometry.coordinates[1];
-            return coordinates;
+            Position position = new Position(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
+            return position;
         }
-        /*public Direction getPath(double[] depart, double[] arrive)
-        {
-            
-        }
-        */
+        
 
 
 

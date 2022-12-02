@@ -9,7 +9,7 @@ namespace RoutingServer
     
     internal interface IService
     {
-       
-        //Direction GetItinerary(Double depart, Double arrive,string profile);
+
+         void GetItinerary(string start, string end);
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -65,21 +66,20 @@ namespace RoutingServer
         }
         public class Step
         {
-            [DataMember]
-            double distance { get; set; }
-            [DataMember]
-            double duration { get; set; }
-            [DataMember]
-            string type { get; set; }
-            [DataMember]
-            public string instruction { get; set; }
-            [DataMember]
-            string name { get; set; }
-            [DataMember]
-            List<int> way_points { get; set; }
             
-        }
+            public string instruction { get; set; }
+            public Step() { }
+            public Step(string i)
+            {
+                instruction = i;
 
+
+            }
+
+
+
+
+        }
 
     }
     }
