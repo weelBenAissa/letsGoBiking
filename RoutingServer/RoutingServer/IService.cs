@@ -11,7 +11,7 @@ namespace RoutingServer
     [ServiceContract]
     internal interface IRoutingService
     {
-        [OperationContract]
+        [OperationContract()]
          List<Step> GetItinerary(string start, string end);
     }
 }
