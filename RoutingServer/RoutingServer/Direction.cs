@@ -12,6 +12,7 @@ namespace RoutingServer
     [DataContract]
     internal class Direction
     {
+        [DataMember]
         public List<Feature> features { get; set; }
 
         [DataContract]
@@ -58,18 +59,18 @@ namespace RoutingServer
         [DataContract]
         public class Segment
         {
-            [DataMember]
+            [DataMemberAttribute]
             double distance { get; set; }
-            [DataMember]
+            [DataMemberAttribute]
             double duration { get; set; }
-            [DataMember]
+            [DataMemberAttribute]
             public List<Step> steps { get; set; }
         }
+        [DataContract]
         public class Step
         {
-            [DataMember]
+            [DataMemberAttribute]
             public string instruction { get; set; }
-           
             public Step() { }
             
             public Step(string i)

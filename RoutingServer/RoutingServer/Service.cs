@@ -11,17 +11,17 @@ using static RoutingServer.Direction;
 
 namespace RoutingServer
 {
-    
-    internal class Service : IService
+    [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
+    internal class RoutingService : IRoutingService
     {
         private JcDeceaux jc = new JcDeceaux();
         private OpenRoute op = new OpenRoute();
        
 
-        public void GetItinerary(string start, string end)
+        public List<Step> GetItinerary(string start, string end)
         {
             List<Step> steps = op.StepsForTheBestPath(start, end);
-            op.printStepsInstruction(steps);
+            return steps;
         }
     }
 

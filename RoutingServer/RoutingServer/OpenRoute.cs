@@ -83,7 +83,13 @@ namespace RoutingServer
             Contract contract = getContractFromStrAddress(depart);
             if (contract == null)
             {
-                Console.WriteLine("Il n'y a pas de contrat associé a cette addresse");
+                Console.WriteLine("Il n'y a pas de contrat associé a cette addresse de départ");
+                return null;
+            }
+            Contract contractArrive = getContractFromStrAddress(arrive);
+            if (contractArrive == null)
+            {
+                Console.WriteLine("Il n'y a pas de contrat associé a cette addresse d'arrivé");
                 return null;
             }
             Position Pdepart = getPositionFromStrAddress(depart);
@@ -92,7 +98,7 @@ namespace RoutingServer
             double durationApied;
             Station statProcheAvecVeloDispo = jc.getClosestStationWithAvailableBikes(Pdepart, contract);
             Position PdepartAvecVelo = statProcheAvecVeloDispo.position;
-            Station statProcheAvecEmplacementDispo = jc.getClosestStationWithAvailableStands(Parrive, contract);
+            Station statProcheAvecEmplacementDispo = jc.getClosestStationWithAvailableStands(Parrive, contractArrive);
             Position ParriveAvecVelo = statProcheAvecEmplacementDispo.position;
             Feature featureAvelo = getItineraryCyclingRegular(PdepartAvecVelo, ParriveAvecVelo);
             Feature featureApied2 = getItineraryFootWalking(ParriveAvecVelo, Parrive);
@@ -132,37 +138,25 @@ namespace RoutingServer
             return steps;
 
         }
-        public void printStepsInstruction(List<Step> steps)
-        {
-            for(int i = 0; i < steps.Count; i++)
-            {
-                Console.WriteLine(steps[i].instruction);
-                Thread.Sleep(100);
-            }
-        }
+        
        
         public Contract getContractFromStrAddress(string addr)
         {
             List<Contract> contracts = jc.getContracts();
-            string cityAddr = getCityFromStrAddress(addr);
+            string cityAddr = getCityFromStrAddress(addr).ToLower();
+            
             foreach (Contract c in contracts)
             {
-                if (c.cities != null)
-                {
-
-                    for (int i = 0; i < c.cities.Length; i++)
-                    {
-
-                        if (c.cities[i] == cityAddr)
+                        if (c.name == cityAddr)
                         {
 
                             return c;
                         }
-                    }
+                    
                 }
 
 
-            }
+            
             return null;
         }
         

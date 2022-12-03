@@ -4,13 +4,14 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using static RoutingServer.Direction;
 
 namespace RoutingServer
 {
     [ServiceContract]
-    internal interface IService
+    internal interface IRoutingService
     {
         [OperationContract]
-         void GetItinerary(string start, string end);
+         List<Step> GetItinerary(string start, string end);
     }
 }
