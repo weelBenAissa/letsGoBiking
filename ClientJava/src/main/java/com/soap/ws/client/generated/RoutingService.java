@@ -1,5 +1,5 @@
 
-package com.soc.testwsclient.TestWSClient;
+package com.soap.ws.client.generated;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -36,6 +36,12 @@
             <version>2.3.3</version>
         </dependency>
     </dependencies>
+    <jaxb:bindings version="2.0"
+                   xmlns:jaxb="http://java.sun.com/xml/ns/jaxb">
+        <jaxb:bindings>
+            <jaxb:globalBindings generateElementProperty="false"/>
+        </jaxb:bindings>
+    </jaxb:bindings>
     <build>
         <plugins>
             <plugin>
@@ -55,7 +61,7 @@
                         <wsdlUrl>http://localhost:8080/MyService/RoutingService?wsdl</wsdlUrl>
                     </wsdlUrls>
                     <keep>true</keep>
-                    <packageName>com.soc.testwsclient.TestWSClient</packageName>
+                    <packageName>com.soap.ws.client.generated</packageName>
                     <sourceDestDir>src/main/java</sourceDestDir>
                 </configuration>
             </plugin>

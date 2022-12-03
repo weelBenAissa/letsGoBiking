@@ -1,5 +1,5 @@
 
-package com.soc.testwsclient.TestWSClient;
+package com.soap.ws.client.generated;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -28,12 +28,12 @@ public interface IRoutingService {
      * @param start
      * @param end
      * @return
-     *     returns com.soc.testwsclient.TestWSClient.ArrayOfDirectionStep
+     *     returns com.soap.ws.client.generated.ArrayOfDirectionStep
      */
     @WebMethod(operationName = "GetItinerary", action = "http://tempuri.org/IRoutingService/GetItinerary")
     @WebResult(name = "GetItineraryResult", targetNamespace = "http://tempuri.org/")
-    @RequestWrapper(localName = "GetItinerary", targetNamespace = "http://tempuri.org/", className = "com.soc.testwsclient.TestWSClient.GetItinerary")
-    @ResponseWrapper(localName = "GetItineraryResponse", targetNamespace = "http://tempuri.org/", className = "com.soc.testwsclient.TestWSClient.GetItineraryResponse")
+    @RequestWrapper(localName = "GetItinerary", targetNamespace = "http://tempuri.org/", className = "com.soap.ws.client.generated.GetItinerary")
+    @ResponseWrapper(localName = "GetItineraryResponse", targetNamespace = "http://tempuri.org/", className = "com.soap.ws.client.generated.GetItineraryResponse")
     public ArrayOfDirectionStep getItinerary(
         @WebParam(name = "start", targetNamespace = "http://tempuri.org/")
         String start,
