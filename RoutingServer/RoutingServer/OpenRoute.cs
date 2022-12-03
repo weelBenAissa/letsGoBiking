@@ -125,7 +125,7 @@ namespace RoutingServer
             }
             else
             {
-                Console.WriteLine("Walk to your destination : ");
+                Console.WriteLine("Walk to your destination Duration:" + durationApied);
                 steps = featureApiedTotal.properties.segments[0].steps;
                 
             }
@@ -140,19 +140,32 @@ namespace RoutingServer
                 Thread.Sleep(100);
             }
         }
+       
         public Contract getContractFromStrAddress(string addr)
         {
             List<Contract> contracts = jc.getContracts();
             string cityAddr = getCityFromStrAddress(addr);
             foreach (Contract c in contracts)
             {
-                for(int i = 0; i< c.cities.Length; i++) { if (c.cities[i] == cityAddr) ;
-                    return c;
+                if (c.cities != null)
+                {
+
+                    for (int i = 0; i < c.cities.Length; i++)
+                    {
+
+                        if (c.cities[i] == cityAddr)
+                        {
+
+                            return c;
+                        }
+                    }
                 }
-                    
+
+
             }
             return null;
         }
+        
         public Position getPositionFromStrAddress(string address)
         {
             Geocode.Feature feature = getFeatureFromStrAddress(address)[0];

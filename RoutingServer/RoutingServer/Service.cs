@@ -11,7 +11,7 @@ using static RoutingServer.Direction;
 
 namespace RoutingServer
 {
-    [ServiceContract]
+    
     internal class Service : IService
     {
         private JcDeceaux jc = new JcDeceaux();

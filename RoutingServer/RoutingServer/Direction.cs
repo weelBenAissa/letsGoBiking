@@ -49,6 +49,7 @@ namespace RoutingServer
         {
             [DataMember]
             public List<List<double>> coordinates { get; set; }
+            [DataMember]
             public string type { get; set; }
 
         }
@@ -66,9 +67,11 @@ namespace RoutingServer
         }
         public class Step
         {
-            
+            [DataMember]
             public string instruction { get; set; }
+           
             public Step() { }
+            
             public Step(string i)
             {
                 instruction = i;

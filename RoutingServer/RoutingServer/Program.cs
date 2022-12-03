@@ -20,7 +20,13 @@ namespace RoutingServer
             JcDeceaux jc = new JcDeceaux();
             OpenRoute opr = new OpenRoute();
             Service s = new Service();
-           
+            /*Console.WriteLine("Entrer une addresse de depart");
+            string start = Console.ReadLine();
+            Contract contrat = opr.getContractFromStrAddress(start);
+            Console.WriteLine("Le contrat est : " + contrat.name);
+            Console.ReadLine();
+            */
+            
             Console.WriteLine("Type a departure adress");
             string start = Console.ReadLine();
             Console.WriteLine("Type an arrival adress");
@@ -28,7 +34,7 @@ namespace RoutingServer
             s.GetItinerary(start, end);
             Console.ReadLine();
            
-                /*
+               /*
             List<Contract> contrats = jc.getContracts();
             {
 
@@ -71,7 +77,7 @@ namespace RoutingServer
 
 
 
-            }
+        }
 
     }
     }
