@@ -18,7 +18,7 @@ namespace RoutingServer
     {
         [DataMember]
         public string name { get; set; }
-        public string number { get; set; }
+        public int number { get; set; }
         public string[] cities { get; set; }
     }
     [DataContract]
