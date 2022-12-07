@@ -145,3 +145,11 @@ C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\ob
 C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\obj\Debug\RoutingServer.csproj.CopyComplete
 C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\obj\Debug\RoutingServer.exe
 C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\obj\Debug\RoutingServer.pdb
+C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\bin\Debug\ProxyCache.exe
+C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\bin\Debug\ProxyCache.pdb
+C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\bin\Debug\ProxyCache.exe.config
+C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\bin\Debug\Apache.NMS.ActiveMQ.dll
+C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\bin\Debug\Apache.NMS.dll
+C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\bin\Debug\ICSharpCode.SharpZipLib.pdb
+C:\Users\weel7\Documents\RMI\Projet2\letsGoBiking\RoutingServer\RoutingServer\bin\Debug\ICSharpCode.SharpZipLib.xml

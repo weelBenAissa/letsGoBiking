@@ -14,7 +14,7 @@ namespace RoutingServer
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     internal class RoutingService : IRoutingService
     {
-        private JcDeceaux jc = new JcDeceaux();
+        private JcDecaux jc = new JcDecaux();
         private OpenRoute op = new OpenRoute();
        
 

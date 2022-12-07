@@ -7,29 +7,29 @@ using System.Threading.Tasks;
 
 namespace ProxyCache
 {
-    internal class JCDeceaux
+    public class JCDeceaux
     {
         [DataContract]
         public class Contract
         {
             [DataMember]
-            public string? name { get; set; }
+            public string name { get; set; }
             [DataMember]
-            public int? number { get; set; }
+            public int number { get; set; }
             [DataMember]
-            public string[]? cities { get; set; }
+            public string[] cities { get; set; }
         }
         [DataContract]
         public class Station
         {
             [DataMember]
-            public int? number { get; set; }
+            public int number { get; set; }
             [DataMember]
-            public string? name { get; set; }
+            public string name { get; set; }
             [DataMember]
-            public Position? position { get; set; }
+            public Position position { get; set; }
             [DataMember]
-            public TotalStands? totalStands { get; set; }
+            public TotalStands totalStands { get; set; }
         }
         public class Position
         {
@@ -49,7 +49,7 @@ namespace ProxyCache
         public class TotalStands
         {
             [DataMember]
-            public Availabilities? availabilities { get; set; }
+            public Availabilities availabilities { get; set; }
         }
         [DataContract]
         public class Availabilities
@@ -61,6 +61,6 @@ namespace ProxyCache
 
         }
     }
-    
+
 
 }

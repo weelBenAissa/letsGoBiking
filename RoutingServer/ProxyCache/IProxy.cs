@@ -1,17 +1,19 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 using static ProxyCache.JCDeceaux;
+using System.Runtime.Serialization;
 
 namespace ProxyCache
 {
     [ServiceContract]
     internal interface IProxy
-        
+
     {
+
         [OperationContract()]
-        public List<Station> getStations();
+         List<Contract> getContracts();
         [OperationContract()]
-        public List<Contract> getContracts();
-        [OperationContract()]
-        public List<Station> getStationsByContract(string contract);
+         List<Station> getStationsByContract(string contract);
+
     }
 }
