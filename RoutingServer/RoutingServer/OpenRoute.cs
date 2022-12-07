@@ -141,6 +141,7 @@ namespace RoutingServer
                 steps.Insert(0, new Step("Walk to your destination Duration: " + durationApied));
                 
             }
+            
             return steps;
 
         }

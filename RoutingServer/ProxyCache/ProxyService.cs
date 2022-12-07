@@ -13,9 +13,6 @@ namespace ProxyCache
     public class ProxyService : IProxy
     {
 
-
-
-
         string key = "3d2ab2ea77d811391e1cea4265a75794bda2f0a9";
         string urlContract = "https://api.jcdecaux.com/vls/v3/contracts/";
         string urlStation = "https://api.jcdecaux.com/vls/v3/stations/";
@@ -39,7 +36,6 @@ namespace ProxyCache
             }
             else
             {
-
                 
                 string response = JCDecauxAPICall(urlContract + "?" + "apiKey=" + key).Result;
                 contracts = JsonSerializer.Deserialize<List<Contract>>(response);
@@ -63,8 +59,6 @@ namespace ProxyCache
             }
             else
             {
-
-                
                 string response = JCDecauxAPICall(urlStation + "?" + "apiKey=" + key + "&contract=" + contract).Result;
                 stations = JsonSerializer.Deserialize<List<Station>>(response);
                 stationsCache.Set(contract, stations, 1000);

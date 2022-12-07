@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace RoutingServer
 {
     [DataContract]
-    internal class Direction
+    public class Direction
     {
         [DataMember]
         public List<Feature> features { get; set; }

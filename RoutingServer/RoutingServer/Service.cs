@@ -21,6 +21,7 @@ namespace RoutingServer
         public List<Step> GetItinerary(string start, string end)
         {
             List<Step> steps = op.StepsForTheBestPath(start, end);
+            ActiveMq.getInstance().send(op.StepsForTheBestPath(start, end));
             return steps;
         }
     }

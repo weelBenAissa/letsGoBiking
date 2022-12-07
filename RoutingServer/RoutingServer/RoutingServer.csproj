@@ -250,6 +250,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveMq.cs" />
     <Compile Include="Connected Services\ProxyCache\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

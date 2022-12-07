@@ -16,7 +16,7 @@ namespace RoutingServer
     {
         static void Main(string[] args)
         {
-            OpenRoute op = new OpenRoute();
+            
             //Create a URI to serve as the base address
             //Be careful to run Visual Studio as Admistrator or to allow VS to open new port netsh command. 
             // Example : netsh http add urlacl url=http://+:80/MyUri user=DOMAIN\user
