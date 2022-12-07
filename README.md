@@ -22,4 +22,5 @@ Bonjour, Voici le guide pour lancer notre programme LetsGoBiking
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 - Nous avons réalisé le MVP avec le proxy Cache et l'active MQ V1. 
+- Il ne faut pas arrêter une instruction en cours d'éxecution sous risques d'avoir des messages de la précédente queue affichés lors de la prochaine exécution
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
