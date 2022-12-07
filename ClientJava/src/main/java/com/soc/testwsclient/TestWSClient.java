@@ -15,10 +15,10 @@ public class TestWSClient {
         RoutingService routingservice=new RoutingService();
         IRoutingService irouting= routingservice.getBasicHttpBindingIRoutingService();
         Scanner sc = new Scanner(System.in);
-        System.out.println("Please enter your current position");
+        System.out.println("Enter start point");
         String source = sc.nextLine();
 
-        System.out.println("Please enter your destination");
+        System.out.println("Enter end point");
         String destination = sc.nextLine();
 
 
@@ -27,8 +27,12 @@ public class TestWSClient {
         lgbItinerary = service.getBasicHttpBindingIRoutingService();
 
         ArrayOfDirectionStep responseJsonStr = lgbItinerary.getItinerary(source,destination);
+        for(int i=0;i<responseJsonStr.getDirectionStep().size();i++){
+            System.out.println(responseJsonStr.getDirectionStep().get(i).getInstruction().getValue());
+            Thread.sleep(100);
+        }
 
-        //System.out.println(responseJsonStr.getStep().get(0).getInstruction().getValue());
+
 
 
 
