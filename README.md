@@ -1,7 +1,7 @@
 # letsGoBiking BEN AISSA WEEL, ALI HAITAM
  
 Bonjour, Voici le guide pour lancer notre programme LetsGoBiking 
-
+ WARNING : IL FAUT EXECUTE LES FICHIERS SUIVANTS EN MODE ADMINISTRATEUR.
 1) Lancer l'éxécutable "letsGoBiking\RoutingServer\RoutingServer\bin\Debug\RoutingServer.exe"
 
 2) Lancer l'exécutable "letsGoBiking\RoutingServer\ProxyCache\bin\Debug\ProxyCache.exe"  

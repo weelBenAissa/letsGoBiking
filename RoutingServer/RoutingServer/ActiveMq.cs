@@ -34,25 +34,13 @@ namespace RoutingServer
             ISession session = connection.CreateSession();
 
             // Use the session to target a queue.
-            IDestination destination = session.GetQueue("test");
+            IDestination destination = session.GetQueue("QueueLetsGoBiking");
 
             // Create a Producer targetting the selected queue.
             IMessageProducer producer = session.CreateProducer(destination);
 
             RoutingService s1 = new RoutingService();
-            //s1.getItinerary(string position, string destination, true);
-
-            // You may configure everything to your needs, for instance:
-
-
-            // Finally, to send messages:
-            //string message1 = "";
-            //foreach (Step s in s1)
-            //{
-            //  message1 = message1 + "\n " + s.instruction.ToString();
-            //}
-
-            //Console.WriteLine(message1);
+            
 
             ITextMessage msg = session.CreateTextMessage(message);
             producer.Send(msg);

@@ -3,12 +3,9 @@ package com.soc.testwsclient;
 import com.soap.ws.client.generated.ArrayOfDirectionStep;
 import com.soap.ws.client.generated.IRoutingService;
 import com.soap.ws.client.generated.RoutingService;
-
 import javax.jms.JMSException;
-import java.util.List;
 import java.util.Scanner;
 
-import static java.lang.Thread.sleep;
 
 public class TestWSClient {
     public static void main(String[] args) throws InterruptedException {
@@ -27,22 +24,13 @@ public class TestWSClient {
         lgbItinerary = service.getBasicHttpBindingIRoutingService();
 
         ArrayOfDirectionStep responseJsonStr = lgbItinerary.getItinerary(source,destination);
-        for(int i=0;i<responseJsonStr.getDirectionStep().size();i++){
-            System.out.println(responseJsonStr.getDirectionStep().get(i).getInstruction().getValue());
-            Thread.sleep(100);
-        }
-
-
-
-
-
-
-        // call onmessage method
 
         try {
             ActiveMQ.activeMq2();
         } catch (JMSException e) {
             e.printStackTrace();
         }
+
+
     }
 }
