@@ -17,7 +17,11 @@ WARNING : IL FAUT EXECUTER LES FICHIERS SUIVANTS EN MODE ADMINISTRATEUR.
 ## Fonctionnement : 
 
 ⬪ Il va vous etre proposé en tout premier de rentrer une adresse de départ et une d'arrivée.
+
 ⬪ Si vous choisissez un itinéraire court la solution de marcher directement vers la destination vous sera proposé sinon les étapes pour récuperer un vélo seront écrites.
+
 ⬪ Malheureusement il y'a quelques Contrats JCDecaux qui ne contiennent pas de ville donc pour gérer cela, si vous entrez une adresse dans une ville qui n'a pas de contrat associé alors le seul chemin possible sera la marche.
+
 ⬪ Nous avons réalisé le MVP avec le proxy Cache et l'active MQ V1. 
+
 ⬪ Il ne faut pas arrêter une instruction en cours d'éxecution sous risques d'avoir des messages de la précédente queue affichés lors de la prochaine exécution.
