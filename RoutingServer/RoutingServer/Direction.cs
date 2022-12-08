@@ -66,6 +66,7 @@ namespace RoutingServer
             [DataMemberAttribute]
             public List<Step> steps { get; set; }
         }
+        
         [DataContract]
         public class Step
         {

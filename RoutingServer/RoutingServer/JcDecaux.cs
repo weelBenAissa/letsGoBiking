@@ -18,18 +18,8 @@ namespace RoutingServer
 {
     internal class JcDecaux
     {
-        private string urlContract = "https://api.jcdecaux.com/vls/v3/contracts";
-        private string key = "3d2ab2ea77d811391e1cea4265a75794bda2f0a9";
-        private string urlStation = "https://api.jcdecaux.com/vls/v3/stations";
+       
         public ProxyService proxy = new ProxyService();
-
-        static async Task<string> JCDecauxAPICall(string url, string query)
-        {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(url + "?" + query);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
-        }
         
         public List<Contract> getContracts()
         {

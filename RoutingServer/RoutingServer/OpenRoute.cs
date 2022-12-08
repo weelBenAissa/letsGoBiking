@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using static System.Net.WebRequestMethods;
 using static RoutingServer.Direction;
 using static ProxyCache.JCDeceaux;
+using ProxyCache;
 
 namespace RoutingServer
 {
@@ -22,7 +23,9 @@ namespace RoutingServer
     {
         private string url = "https://api.openrouteservice.org/v2/directions/";
         private string key = "5b3ce3597851110001cf624810d1e3dd14444e7890e65060cb520bac";
-        private JcDecaux jc = new JcDecaux();
+        private ProxyService proxy = new ProxyService();
+        JcDecaux jc = new JcDecaux();
+
         static async Task<string> OSPMApiCall(string url, string query)
         {
             HttpClient client = new HttpClient();
@@ -63,7 +66,7 @@ namespace RoutingServer
         
         public List<Geocode.Feature> getFeatureFromStrAddress(string address)
         {
-           ;
+           
             string query = "text="+ address +"&api_key=" + key; 
             string url = "https://api.openrouteservice.org/geocode/search"; 
             string response = OSPMApiCall(url , query).Result;
@@ -86,7 +89,7 @@ namespace RoutingServer
             {
                 Console.WriteLine("Il n'y a pas de contrat associé a cette addresse de départ");
                 steps = getItineraryFootWalking(getPositionFromStrAddress(depart), getPositionFromStrAddress(arrive)).properties.segments[0].steps;
-                steps.Insert(0, new Step("There is no contract for departure address so you have to walk to your destination. "));
+                steps.Insert(0, new Step("There is no contract for departure address so you have to walk to your destination."));
                 return steps;
             }
             Contract contractArrive = getContractFromStrAddress(arrive);
@@ -94,7 +97,7 @@ namespace RoutingServer
             {
                 Console.WriteLine("Il n'y a pas de contrat associé a cette addresse d'arrivé");
                 steps = getItineraryFootWalking(getPositionFromStrAddress(depart), getPositionFromStrAddress(arrive)).properties.segments[0].steps;
-                steps.Insert(0, new Step("There is no contract for arrival address so you have to walk to your destination. "));
+                steps.Insert(0, new Step("There is no contract for arrival address so you have to walk to your destination."));
                 return steps;
             }
             Position Pdepart = getPositionFromStrAddress(depart);
@@ -149,7 +152,7 @@ namespace RoutingServer
        
         public Contract getContractFromStrAddress(string addr)
         {
-            List<Contract> contracts = jc.getContracts();
+            List<Contract> contracts = proxy.getContracts();
             string cityAddrMin = getCityFromStrAddress(addr).ToLower();
             string cityAddr = getCityFromStrAddress(addr);
 
